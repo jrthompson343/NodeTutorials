@@ -1,20 +1,31 @@
 <html>
 	<head>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+        <script src="commonDefaults.js"></script>
 		<link rel="stylesheet" type="text/css" href="css/styles.css">
 	</head>
     <body>
 		<div class="header">
+            <h1>Home Vitals Tracker</h1>
 		</div>
 		<div class="content">
-            <form action="food" method="POST">
-                Time: <input type="time" name="time"><br>
-                Left: <input type="number" name="left"><br>
-                Right: <input type="number" name="right"><br>
-                Bottle: <input type="number" name="bottle"> / <select name="bottletype"><option value="breastmilk">Breast Milk</option><option value="formula">Formula</option></select> <br>
+            <form action="save/food" method="POST">
+                <label>Time</label> 
+                <input type="time" id="time" name="time"><br>
+                <label>Left</label> 
+                <input type="number" name="left"><br>
+                <label>Right</label>
+                <input type="number" name="right"><br>
+                <label>Bottle</label>
+                <input type="number" name="bottle"> 
+                <label>Bottle Type</label>
+                <select name="bottletype"><option value="breastmilk">Breast Milk</option><option value="formula">Formula</option></select> <br>
                 <input type="submit" name="Submit">
             </form>
 		</div>
 		<div class="footer">
+            &copy;Jon Thompson
 		</div>
     </body>
 </html>

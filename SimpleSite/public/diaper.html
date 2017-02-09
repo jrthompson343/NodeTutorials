@@ -1,15 +1,34 @@
 <html>
 	<head>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Diaper Change</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+        <script src="commonDefaults.js"></script>
 		<link rel="stylesheet" type="text/css" href="css/styles.css">
+        
 	</head>
     <body>
-        <form action="diaper" method="POST">
-            Time : <input type="time" name="time"><br>
-            Wet  : <input type="checkbox" name="Wet" value="wet"><br>
-            Poop : <input type="checkbox" name="Poop" value="poop"> <br>
-            Color: <input type="text" name="poopcolor"> <br>
+        <div class="header">
+            <h1>Home Vitals Tracker</h1>
+		</div>
+        <div class="content">
+        <form action="save/diaper" method="POST">
+            <label>Time</label>
+            <input type="time" id="time" name="time">
+            
+            <label>Diaper Type</label>
+            <div class="checkboxs">
+                <input type="checkbox" name="Wet" value="wet"><label>Wet</label><br>
+                <input type="checkbox" name="Poop" value="poop"><label>Poop</label>
+            </div>
+            <label>Color:</label>
+            <input type="text" name="poopcolor">
             <input type="submit" name="Submit">
         </form>
+        </div>
+        <div class="footer">
+            &copy;Jon Thompson
+        </div>
     </body>
+
 </html>

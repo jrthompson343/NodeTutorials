@@ -1,20 +1,25 @@
 <html>
 	<head>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+        <script src="commonDefaults.js"></script>
 		<link rel="stylesheet" type="text/css" href="css/styles.css">
 	</head>
     <body>
 		<div class="header">
+            <h1>Home Vitals Tracker</h1>
 		</div>
 		<div class="content">
-            <form action="sleep" method="POST">
-                <input type="submit" name="Sleep!" value="sleep" /><br>
-                <input type="submit" name="Awake!" value="wake" />
-                <hr>
-                Time: <input type="time" name="time"> <select name=sleeptype><option value="sleep">sleep</option><option value="wake">wake</option> </select>
+            <form action="save/sleep" method="POST">
+                <label>Time</label>
+                <input type="time" id="time" name="time">
+                <label>Sleep Event</label>
+                <select name=sleeptype><option value="sleep">sleep</option><option value="wake">wake</option> </select>
                 <input type="submit" name="Submit">
             </form>
 		</div>
 		<div class="footer">
+            &copy;Jon Thompson
 		</div>
     </body>
 </html>
