@@ -8,29 +8,27 @@
         
 	</head>
     <body>
-        <div class="header">
-            <h1>Home Vitals Tracker</h1>
-		</div>
-        <div class="content">
-        <form action="save/diaper" method="POST">
-            <label>Date</label>
-            <input type="date" id="date" name="date">
-            
-            <label>Time</label>
-            <input type="time" id="time" name="time">
-            
-            <label>Diaper Type</label>
-            <div class="checkboxs">
-                <input type="checkbox" name="Wet" value="wet"><label>Wet</label><br>
-                <input type="checkbox" name="Poop" value="poop"><label>Poop</label>
+        <div class="window">
+            <div class="header"><label class="headerOne">home</label><label class="headerTwo">Vitals</label></div>
+            <div class="content">
+            <form action="save/diaper" method="POST">
+                <label>Date</label>
+                <input type="date" id="date" name="date">
+                
+                <label>Time</label>
+                <input type="time" id="time" name="time">
+                
+                <label>Diaper Type</label>
+                <div class="checkboxs">
+                    <input type="checkbox" name="Wet" value="wet"><label>Wet</label><br>
+                    <input type="checkbox" name="Poop" value="poop"><label>Poop</label>
+                </div>
+                <label>Poop description</label>
+                <input type="text" name="poopColor">
+                <input type="submit" name="Submit">
+            </form>
             </div>
-            <label>Color:</label>
-            <input type="text" name="poopColor">
-            <input type="submit" name="Submit">
-        </form>
-        </div>
-        <div class="footer">
-            &copy;Jon Thompson
+            <div class="footer">jthompson-2017</div>
         </div>
     </body>
 

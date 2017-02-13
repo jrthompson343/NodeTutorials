@@ -9,19 +9,19 @@
           <div class="window">
 		<div class="header"><label class="headerOne">home</label><label class="headerTwo">Vitals</label></div>
 		<div class="content">
-            <form action="save/food" method="POST">
+            <form action="save/weight" method="POST">
+                <label>Person</person> 
+                <select name="person">
+                    <option value="Jon">Jon</option>
+                    <option value="Rachel">Rachel</option>
+                    <option value="Teddy">Teddy</option>
+                </select><br>
                 <label>Date</label>
                 <input type="date" id="date" name="date">
-                <label>Time</label> 
-                <input type="time" id="time" name="time"><br>
-                <label>Left (min)</label> 
-                <input type="number" name="left"><br>
-                <label>Right (min)</label>
-                <input type="number" name="right"><br>
-                <label>Bottle (ounces)</label>
-                <input type="number" name="bottle"> 
-                <label>Bottle Type</label>
-                <select name="bottletype"><option value="breastmilk">Breast Milk</option><option value="formula">Formula</option></select> <br>
+                <label>Time</label>
+                <input type="time" id="time" name="time">
+                <label>Weight (lbs)</label> 
+                <input type="number" name="weight">
                 <input type="submit" name="Submit">
             </form>
 		</div>

@@ -6,7 +6,8 @@ var persistor = new (require('./persistence')).SimplePersistence("C:/temp2");
 var fs = require('fs');
 var models = require('./models');
 var vitals = require('./repository');
-var vitalsRepo = new vitals.VitalsRepositories('C:/sqliteDbs/vitals.sqlite');
+//var vitalsRepo = new vitals.VitalsRepositories('C:/sqliteDbs/vitals.sqlite');
+var vitalsRepo = new vitals.VitalsRepositories('vitals.sqlite');
 
 var diaperRepo = new vitalsRepo.diaperRepo();
 var sleepRepo = new vitalsRepo.sleepRepo();
@@ -40,7 +41,6 @@ function GetAllRecords(callback){
             report.push({
                 id: row.id,
                 datetime: row.datetime,
-                eventOrder: row.eventOrder,
                 event: models.ConvertDiaperToEvent(row)
             });
         }
@@ -51,7 +51,6 @@ function GetAllRecords(callback){
                 report.push({
                     id: row.id,
                     datetime: food.datetime,
-                    eventOrder: row.eventOrder,
                     event: models.ConvertFoodToEvent(food)
                 });
             }
@@ -113,6 +112,8 @@ server.post('/save/:type', function(req, res){
                 res.redirect('/');
             }
         });
+    }else{
+        res.redirect('/comingsoon.html');
     }
 });
 
