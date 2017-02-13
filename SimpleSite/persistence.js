@@ -4,19 +4,7 @@ var path = require('path');
 function SimplePersistence(rootDirectory){
     var dir = rootDirectory;
     var id = 0;
-    if(fs.existsSync('persist.data')){
-        id = Number(fs.readFileSync('persist.data','utf8'));
-    }
 
-    function GetNextId(){
-        id++;
-        SaveId();
-        return id;
-    }
-    
-    function SaveId(){
-        fs.writeFileSync('persist.data',id,'utf8');
-    }
 
     this.SaveEntry = function(recType, obj, callback){
         var filePath = path.join(dir,recType + ".data");

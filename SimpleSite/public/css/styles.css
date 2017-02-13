@@ -32,7 +32,7 @@ label{
 	line-height: 26.4px;
 }
 
-input[type="text"], input[type="time"], input[type="number"], select {
+input[type="text"], input[type="time"], input[type="number"], input[type="date"], select {
     width: 100%;
     padding: 12px 20px;
     margin: 8px 0;

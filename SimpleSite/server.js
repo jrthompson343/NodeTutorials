@@ -4,7 +4,13 @@ var path = require('path');
 var bodyParser = require('body-parser');
 var persistor = new (require('./persistence')).SimplePersistence("C:/temp2");
 var fs = require('fs');
+var models = require('./models');
+var vitals = require('./repository');
+var vitalsRepo = new vitals.VitalsRepositories('C:/sqliteDbs/vitals.sqlite');
 
+var diaperRepo = new vitalsRepo.diaperRepo();
+var sleepRepo = new vitalsRepo.sleepRepo();
+var foodRepo = new vitalsRepo.foodRepo();
 
 server.use(express.static(path.join(__dirname,'public')))
 server.use(bodyParser.json());
@@ -26,6 +32,47 @@ server.get('/report/:type', function(req, res){
     });
 });
 
+function GetAllRecords(callback){
+    var report = [];
+    diaperRepo.GetAll(function(err, allrows){
+        for(i=0; i<allrows.length; i++){
+            var row = allrows[i];
+            report.push({
+                id: row.id,
+                datetime: row.datetime,
+                eventOrder: row.eventOrder,
+                event: models.ConvertDiaperToEvent(row)
+            });
+        }
+
+        foodRepo.GetAll(function(err, foodRows){
+            for(k=0; k<foodRows.length; k++){
+                var food = foodRows[k];
+                report.push({
+                    id: row.id,
+                    datetime: food.datetime,
+                    eventOrder: row.eventOrder,
+                    event: models.ConvertFoodToEvent(food)
+                });
+            }
+
+            sleepRepo.GetAll(function(err,sleepRows){
+                for(j=0; j<sleepRows.length; j++){
+                    var sleep = sleepRows[j];
+                    report.push(sleep);
+                }
+                callback(report);
+            });
+        });
+    })
+}
+
+server.get('/events', function(req,res){
+    GetAllRecords(function(reportData){
+        res.send(reportData);
+    })
+});
+
 server.get('/fullreport/:person', function(req,res){
     if(req.params.person == 'teddy'){
         var data = persistor.LoadRecordsSync(["diaper","sleep","food"]);
@@ -33,16 +80,40 @@ server.get('/fullreport/:person', function(req,res){
     }
 });
 
-
 server.post('/save/:type', function(req, res){
-        persistor.SaveEntry(req.params.type, req.body, function(err){
+    if(req.params.type == 'diaper'){
+        var diaper = models.ConvertToDiaperModel(req.body);
+        diaperRepo.Save(diaper, function(err, id){
             if(err){
-                console.log(err);
                 res.sendStatus(500);
-            }else{
+            }
+            else{
                 res.redirect('/');
-            }   
+            }
         });
+    }
+    else if(req.params.type == 'sleep'){
+        var sleep = models.ConvertToSleepModel(req.body);
+        sleepRepo.Save(sleep, function(err, id){
+            if(err){
+                res.sendStatus(500);
+            }
+            else{
+                res.redirect('/');
+            }
+        });
+    }
+    else if(req.params.type == 'food'){
+        var food = models.ConvertToFoodModel(req.body);
+        foodRepo.Save(food, function(err, id){
+            if(err){
+                res.sendStatus(500);
+            }
+            else{
+                res.redirect('/');
+            }
+        });
+    }
 });
 
 server.listen(8070, function(){

@@ -9,4 +9,7 @@ function GetCurrentTimeAsString(){
 $(document).ready(function(){
     var timeInput = document.getElementById('time');
     timeInput.value = GetCurrentTimeAsString();
+
+    var dateInput = document.getElementById('date');
+    dateInput.valueAsDate = new Date();
 });

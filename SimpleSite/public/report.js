@@ -1,8 +1,50 @@
-function formatDate(date){
-    var month = date.getMonth() + 1;
-    var day = date.getDate();
-    var year = date.getFullYear();
-    return "" + month + "/" + day + "/" + year;
+function convertTimeToAMPM(time){
+    //time is in hh:mm
+    var timeComps = time.split(':');
+    result = '';
+    if(timeComps.length != 2){
+        result = 'undefined';
+    }
+    else{
+        var hour = Number(timeComps[0]);
+        if(hour < 12 && hour < 10){
+            if(hour != 0){
+                result = '0' + hour + ':' + timeComps[1] + ' AM';
+            }else{
+                result = '12:' + timeComps[1] + ' AM';
+            }
+        }else if(hour < 12 && hour >= 10){
+            result = hour + ':' + timeComps[1] + ' AM';
+        }else if(hour == 12){
+            result = '12:' + timeComps[1] + ' PM';
+        }else if(hour >= 12){
+            var wrapped = (hour - 12);
+            result = wrapped + ':' + timeComps[1] + ' PM';
+            if(wrapped < 10){
+                result = '0' + result;
+            }
+        }
+    }
+    return result;
+}
+
+function formatDateTime(datetime){
+    //time comes back from server as string yyyy-mm-dd hh:mm
+    var datetimeComps = datetime.split(' ');
+    if(datetimeComps.length != 2){
+        return 'undefined'
+    }else{
+        var dateComps = datetimeComps[0].split('-');
+        
+        var month = dateComps[1];
+        var day = dateComps[2];
+        var year = dateComps[0];
+        var time = convertTimeToAMPM(datetimeComps[1]);
+
+        return month + '/' + day + '/' + year + '  ' + time;
+    }
+
+
 }
 
 function Rowify(string){
@@ -13,97 +55,30 @@ function Cellify(element){
     return "<td>" + element + "</td>";
 }
 
-function ConvertDiapersToRow(data){
-    var result = "";
-    for(i=0; i<data.length; i++){
-        var diaper = data[i];
-        result += Rowify(
-            Cellify(formatDate(new Date(diaper.date))) +
-            Cellify(diaper.data.time) + 
-            Cellify(diaper.data.Wet) + 
-            Cellify(diaper.data.Poop) + 
-            Cellify(diaper.data.poopcolor)
-        );
-    }
-    return result;
-}
-
-function ConvertFoodToRow(data){
-    var result = "";
-    for(i=0; i<data.length; i++){
-        var food = data[i];
-        result += Rowify(
-            Cellify(formatDate(new Date(food.date))) +
-            Cellify(food.data.time) + 
-            Cellify(food.data.left) + 
-            Cellify(food.data.right) + 
-            Cellify(food.data.bottle)
-        );
-    }
-    return result;
-}
-
 function ConvertAllToDetails(data){
     var result = "";
-    for(i=0; i<data.length; i++){
-        var any = data[i];
+    for(i=0; i < data.length; i++){
+        var datum = data[i];
         var rowData = "";
-        rowData += Cellify(formatDate(new Date(any.date)));
-        rowData += Cellify(any.data.time);
-        rowData += Cellify(any.recordType);
-        if(any.recordType == 'food'){
-            rowData += Cellify(
-                (any.data.left != '' ? 'Left: ' + any.data.left : '') +
-                (any.data.right != '' ? ' Right: ' + any.data.right : '') +
-                (any.data.bottle != '' ? ' Bottle: ' + any.data.bottle + " oz. [" + any.data.bottletype+"]" : '')
-            );
-        }
-        else if(any.recordType == 'diaper'){
-            rowData += Cellify(
-                (any.data.Wet ? '[Wet]' : '') +
-                (any.data.Poop ? (any.data.poopcolor != '' ? '[' + any.data.poopcolor + ' poop]': '[poop]') : '')
-            );
-        }
-        else if(any.recordType == 'sleep'){
-            rowData += Cellify(
-                any.data.sleeptype == 'wake' ? 'Woke up' : 'Fell asleep'
-            );
-        }
+        rowData += Cellify(datum.id);
+        rowData += Cellify(formatDateTime(datum.datetime));
+        rowData += Cellify(datum.event);
         result += Rowify(rowData);
+
     }
     return result;
 }
 
 $(document).ready(function(){
-    /*
     $.ajax({
-        url: 'http://192.168.1.7:8070/report/diaper',
+        url: '/events',
         success: function(result){
-            var diapers = JSON.parse(result);
-            var tableRows = ConvertDiapersToRow(diapers);
-            $('#diaperTable > tbody').append(tableRows);
-        }
-    });
-
-    $.ajax({
-        url: 'http://192.168.1.7:8070/report/food',
-        success: function(result){
-            var food = JSON.parse(result);
-            var tableRows = ConvertFoodToRow(food);
-            $('#foodTable > tbody').append(tableRows);
-        }
-    });
-*/
-    $.ajax({
-        url: '/fullreport/teddy',
-        success: function(result){
-            var allrecords = JSON.parse(result);
-            var sorted = allrecords.sort(function(a,b){
-                return a.id - b.id;
+            var sorted = result.sort(function(a,b){
+                return new Date(a.datetime) - new Date(b.datetime);
             });
 
             var tableRows = ConvertAllToDetails(sorted);
             $('#masterTable > tbody').append(tableRows);
         }
-    });
+    })
 });

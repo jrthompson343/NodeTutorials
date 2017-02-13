@@ -7,6 +7,13 @@
         {
             "type": "node",
             "request": "launch",
+            "name": "repoTest",
+            "program": "${workspaceRoot}/SimpleSite/repoTest.js",
+            "cwd": "${workspaceRoot}"
+        },
+        {
+            "type": "node",
+            "request": "launch",
             "name": "SimpleServer",
             "program": "${workspaceRoot}/SimpleSite/server.js",
             "cwd": "${workspaceRoot}"
