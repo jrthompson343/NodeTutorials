@@ -10,28 +10,28 @@ function formatViewDate(date, time){
 function ConvertDiaperToEvent(diaper){
     var result = '';
     if(diaper.isWet == 1){
-        result += '[Wet]'
+        result += ' [Wet] '
     }
     if(diaper.isDirty == 1 && diaper.poopColor != ''){
-        result += '[' + diaper.poopColor + ' Poop]'; 
+        result += ' [' + diaper.poopColor + ' Poop] '; 
     }else if(diaper.isDirty){
-        result += '[Poop]';
+        result += ' [Poop] ';
     }
-    return result;
+    return 'Diaper: ' + result;
 }
 
 function ConvertFoodToEvent(food){
     var result = '';
     if(food.left){
-        result += '[Left: ' + food.left + ' min.]';
+        result += ' [Left: ' + food.left + ' min.] ';
     }
     if(food.right){
-        result += '[Right:' + food.right + ' min.]';
+        result += ' [Right:' + food.right + ' min.] ';
     }
     if(food.bottle){
-        result += '[' + food.bottle + ' oz. of ' + food.bottleType + ']';
+        result += ' [' + food.bottle + ' oz. of ' + food.bottleType + '] ';
     }
-    return result;
+    return 'Feeding: ' + result;
 }
 
 function ConvertToDiaperModel(viewModel){
