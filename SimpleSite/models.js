@@ -34,6 +34,7 @@ function ConvertFoodToEvent(food){
     return 'Feeding: ' + result;
 }
 
+
 function ConvertToDiaperModel(viewModel){
     return {
         datetime: formatViewDate(viewModel.date, viewModel.time),
@@ -48,6 +49,13 @@ function ConvertToSleepModel(viewModel){
         datetime: formatViewDate(viewModel.date, viewModel.time),
         event: viewModel.sleeptype
     };
+}
+
+function ConvertToMemoModel(viewModel){
+    return{
+        datetime: formatViewDate(viewModel.date, viewModel.time),
+        memo: viewModel.memo
+    }
 }
 
 function ConvertToFoodModel(viewModel){
@@ -65,3 +73,4 @@ module.exports.ConvertToFoodModel = ConvertToFoodModel;
 module.exports.ConvertToSleepModel = ConvertToSleepModel;
 module.exports.ConvertDiaperToEvent = ConvertDiaperToEvent;
 module.exports.ConvertFoodToEvent = ConvertFoodToEvent;
+module.exports.ConvertToMemoModel = ConvertToMemoModel;

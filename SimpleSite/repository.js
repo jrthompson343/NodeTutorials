@@ -11,6 +11,7 @@ function CreateDatabase(databaseName){
             db.run('CREATE TABLE diaper (id integer primary key not null, datetime text not null, isWet integer not null, isDirty integer not null, poopColor not null, timeStamp text not null)');
             db.run('CREATE TABLE food (id integer primary key not null, datetime text not null, left integer, right integer, bottle integer, bottleType text, timeStamp text not null)');
             db.run('CREATE TABLE sleep(id integer primary key not null, datetime text not null, event text, timeStamp text not null)');
+            db.run('CREATE TABLE memo(id integer primary key not null, datetime text not null, memo text, timeStamp text not null)');
         });
         return db;
     }
@@ -31,6 +32,27 @@ function VitalsRepositories(databaseName){
                 statement.finalize(); 
 
                 db.get("select id from person order by id desc limit 1", callback);
+            })
+           
+        }     
+    }
+
+    this.memoRepo = function(){
+        this.FindById = function(id,callback){
+            db.get("select * from memo where id = ?",id, callback);
+        }  
+
+        this.GetAll = function(callback){
+            db.all("select * from memo",callback);
+        }
+
+        this.Save = function(memo, callback){
+            db.serialize(function(){
+                var statement = db.prepare("insert into memo (datetime, memo, timeStamp) values (?,?,?)");
+                statement.run(memo.datetime, memo.memo, moment().format('YYYY-MM-DD HH:MM:SS.SSS'));
+                statement.finalize(); 
+
+                db.get("select id from memo order by id desc limit 1", callback);
             })
            
         }     

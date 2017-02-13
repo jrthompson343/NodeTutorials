@@ -74,7 +74,7 @@ $(document).ready(function(){
         url: '/events',
         success: function(result){
             var sorted = result.sort(function(a,b){
-                return new Date(a.datetime) - new Date(b.datetime);
+                return new Date(b.datetime) - new Date(a.datetime);
             });
 
             var tableRows = ConvertAllToDetails(sorted);

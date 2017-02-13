@@ -1,0 +1,25 @@
+<html>
+	<head>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+        <script src="commonDefaults.js"></script>
+		<link rel="stylesheet" type="text/css" href="css/styles.css">
+	</head>
+    <body>
+          <div class="window">
+		<div class="header"><label class="headerOne">home</label><label class="headerTwo">Vitals</label></div>
+		<div class="content">
+            <form action="save/memo" method="POST">
+                <label>Date</label>
+                <input type="date" id="date" name="date">
+                <label>Time</label>
+                <input type="time" id="time" name="time">
+                <label>Memo</label>
+                <textarea name="memo" cols="40" rows="5"></textarea><br>
+                <input type="submit" name="Submit">
+            </form>
+		</div>
+		<div class="footer">jthompson-2017</div>
+      </div>
+    </body>
+</html>

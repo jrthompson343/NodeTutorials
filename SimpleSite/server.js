@@ -12,6 +12,7 @@ var vitalsRepo = new vitals.VitalsRepositories('vitals.sqlite');
 var diaperRepo = new vitalsRepo.diaperRepo();
 var sleepRepo = new vitalsRepo.sleepRepo();
 var foodRepo = new vitalsRepo.foodRepo();
+var memoRepo = new vitalsRepo.memoRepo();
 
 server.use(express.static(path.join(__dirname,'public')))
 server.use(bodyParser.json());
@@ -49,18 +50,29 @@ function GetAllRecords(callback){
             for(k=0; k<foodRows.length; k++){
                 var food = foodRows[k];
                 report.push({
-                    id: row.id,
+                    id: food.id,
                     datetime: food.datetime,
                     event: models.ConvertFoodToEvent(food)
                 });
             }
 
             sleepRepo.GetAll(function(err,sleepRows){
-                for(j=0; j<sleepRows.length; j++){
+                for(j=0; j < sleepRows.length; j++){
                     var sleep = sleepRows[j];
                     report.push(sleep);
                 }
-                callback(report);
+
+                memoRepo.GetAll(function(err, memoRows){
+                    for(h =0; h < memoRows.length; h++){
+                        var memo = memoRows[h];
+                        report.push({
+                            id: memo.id,
+                            datetime: memo.datetime,
+                            event: memo.memo
+                        });
+                    }
+                    callback(report);
+                });
             });
         });
     })
@@ -105,6 +117,17 @@ server.post('/save/:type', function(req, res){
     else if(req.params.type == 'food'){
         var food = models.ConvertToFoodModel(req.body);
         foodRepo.Save(food, function(err, id){
+            if(err){
+                res.sendStatus(500);
+            }
+            else{
+                res.redirect('/');
+            }
+        });
+    }
+    else if(req.params.type == 'memo'){
+        var memo = models.ConvertToMemoModel(req.body);
+        memoRepo.Save(memo, function(err, id){
             if(err){
                 res.sendStatus(500);
             }
