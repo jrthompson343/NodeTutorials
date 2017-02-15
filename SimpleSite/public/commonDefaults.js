@@ -7,9 +7,12 @@ function GetCurrentTimeAsString(){
 
 
 $(document).ready(function(){
+//    alert(new Date());
     var timeInput = document.getElementById('time');
     timeInput.value = GetCurrentTimeAsString();
 
+    var d = new Date();
+    d.setHours(d.getHours() - 5);
     var dateInput = document.getElementById('date');
-    dateInput.valueAsDate = new Date();
+    dateInput.valueAsDate = d;
 });
