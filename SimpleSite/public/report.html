@@ -6,9 +6,25 @@
 		<link rel="stylesheet" type="text/css" href="css/styles.css">
 	</head>
     <body>
+
+
+
         <div class="reportWindow">
             <div class="header"><label class="headerOne">home</label><label class="headerTwo">Vitals</label></div>
             <div class="content">
+                <div class="searchCriteria">
+                    <input type="date" id="startDate">
+                    <input type="date" id="endDate">
+                    <select id="filter">
+                        <option value="all">All Records</option>
+                        <option value="diaper">Diaper Changes</option>
+                        <option value="food">Feedings</option>
+                        <option value="memo">Notes</option>
+                        <option value="sleep">Sleep</option>
+                    </select>
+                    <button type="button" id="searchButton">Search</button>
+                </div>
+
                 <table id="masterTable">
                     <col style="width:10%">
                     <col style="width:20%">

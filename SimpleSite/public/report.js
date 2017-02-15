@@ -69,10 +69,20 @@ function ConvertAllToDetails(data){
     return result;
 }
 
-$(document).ready(function(){
+function SearchEvents(useDefaults){
+    var url = '/events';
+    var type = 'all';
+    if(!useDefaults){
+        var startDate = $('#startDate').val();
+        var endDate = $('#endDate').val();
+        type = $( "#filter option:selected" ).val();
+        url = '/events?startDate=' + startDate + '&endDate=' + endDate + '&type=' + type;
+    }
+
     $.ajax({
-        url: '/events',
+        url: url,
         success: function(result){
+            $('#masterTable tbody > tr').remove();
             var sorted = result.sort(function(a,b){
                 return new Date(b.datetime) - new Date(a.datetime);
             });
@@ -80,5 +90,13 @@ $(document).ready(function(){
             var tableRows = ConvertAllToDetails(sorted);
             $('#masterTable > tbody').append(tableRows);
         }
-    })
+    });
+}
+
+$(document).ready(function(){
+    $('#searchButton').on('click',function(){
+        SearchEvents(false);
+    });
+    
+    SearchEvents(true);
 });

@@ -7,7 +7,6 @@ function GetCurrentTimeAsString(){
 
 
 $(document).ready(function(){
-//    alert(new Date());
     var timeInput = document.getElementById('time');
     timeInput.value = GetCurrentTimeAsString();
 

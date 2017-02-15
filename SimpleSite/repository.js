@@ -46,6 +46,10 @@ function VitalsRepositories(databaseName){
             db.all("select * from memo",callback);
         }
 
+        this.MemoByDateRange = function(startDate, endDate, callback){
+            db.all("select * from memo where datetime between ? and ?", startDate, endDate, callback);
+        }
+
         this.Save = function(memo, callback){
             db.serialize(function(){
                 var statement = db.prepare("insert into memo (datetime, memo, timeStamp) values (?,?,?)");
@@ -87,7 +91,7 @@ function VitalsRepositories(databaseName){
             db.get("select * from food where id = ?", id, callback);
         }
         
-        this.DiapersByDateRange = function(startDate, endDate, callback){
+        this.FoodByDateRange = function(startDate, endDate, callback){
             db.all("select * from food where datetime between ? and ?", startDate, endDate, callback);
         }
 
@@ -111,7 +115,7 @@ function VitalsRepositories(databaseName){
             db.get("select * from sleep where id = ?", id, callback);
         }
         
-        this.DiapersByDateRange = function(startDate, endDate, callback){
+        this.SleepByDateRange = function(startDate, endDate, callback){
             db.all("select * from sleep where datetime between ? and ?", startDate, endDate, callback);
         }
 
